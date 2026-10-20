@@ -49,9 +49,38 @@ CREATE TABLE IF NOT EXISTS leads (
     created_at TEXT NOT NULL DEFAULT (datetime('now')),
     updated_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
+
+CREATE TABLE IF NOT EXISTS lead_notes (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    lead_id INTEGER NOT NULL REFERENCES leads(id) ON DELETE CASCADE,
+    note TEXT NOT NULL,
+    created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+CREATE TABLE IF NOT EXISTS lead_events (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    lead_id INTEGER NOT NULL REFERENCES leads(id) ON DELETE CASCADE,
+    event TEXT NOT NULL,
+    created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
 """
+
+# Columns added after the first release. Each is added only if missing.
+EXTRA_LEAD_COLUMNS = {
+    "email": "TEXT",
+    "address": "TEXT",
+    "source_url": "TEXT",
+    "website_status": "TEXT NOT NULL DEFAULT 'unchecked'",
+    "demo_url": "TEXT",
+    "followup_date": "TEXT",
+    "do_not_contact": "INTEGER NOT NULL DEFAULT 0",
+}
 
 
 def init_db() -> None:
     with db() as conn:
         conn.executescript(SCHEMA)
+        existing = {row["name"] for row in conn.execute("PRAGMA table_info(leads)")}
+        for column, definition in EXTRA_LEAD_COLUMNS.items():
+            if column not in existing:
+                conn.execute(f"ALTER TABLE leads ADD COLUMN {column} {definition}")
