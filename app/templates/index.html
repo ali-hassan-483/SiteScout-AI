@@ -1,0 +1,38 @@
+﻿{% extends "base.html" %}
+{% block title %}Dashboard - SiteScout AI{% endblock %}
+{% block content %}
+<h1>Dashboard</h1>
+<div class="grid">
+  <div class="stat"><div class="num">{{ counts.total }}</div><div class="label">Discovered businesses</div></div>
+  <div class="stat"><div class="num">{{ counts.no_website }}</div><div class="label">No website found</div></div>
+  <div class="stat"><div class="num">{{ counts.has_website }}</div><div class="label">Existing or broken website</div></div>
+  <div class="stat"><div class="num">{{ counts.qualified }}</div><div class="label">Qualified leads</div></div>
+  <div class="stat"><div class="num">{{ counts.demos }}</div><div class="label">Demos generated</div></div>
+  <div class="stat"><div class="num">{{ counts.pending_outreach }}</div><div class="label">Pending outreach</div></div>
+  <div class="stat"><div class="num">{{ counts.replies }}</div><div class="label">Replies received</div></div>
+  <div class="stat"><div class="num">{{ counts.interested }}</div><div class="label">Interested</div></div>
+  <div class="stat"><div class="num">{{ counts.followups_due }}</div><div class="label">Follow-ups due</div></div>
+  <div class="stat"><div class="num">{{ counts.converted }}</div><div class="label">Converted clients</div></div>
+</div>
+
+<div class="card" style="margin-top:16px">
+  <strong>Follow-ups due</strong>
+  {% if due %}
+  <div class="table-wrap">
+    <table>
+      <tr><th>Business</th><th>City</th><th>Date</th><th>Status</th></tr>
+      {% for l in due %}
+      <tr>
+        <td><a href="/leads/{{ l.id }}">{{ l.name }}</a></td>
+        <td>{{ l.city or '-' }}</td>
+        <td>{{ l.followup_date }}</td>
+        <td><span class="badge">{{ l.status }}</span></td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+  {% else %}
+  <p class="muted">No follow-ups due.</p>
+  {% endif %}
+</div>
+{% endblock %}
