@@ -1,0 +1,57 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}SiteScout AI{% endblock %}</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #f3f4f6; color: #111827; font-family: system-ui, Arial, sans-serif; }
+    nav { background: #111827; padding: 12px 16px; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
+    nav a { color: #e5e7eb; text-decoration: none; font-size: 15px; }
+    nav a:hover { color: #fff; }
+    nav .brand { font-weight: 700; color: #fff; margin-right: 8px; }
+    nav .spacer { flex: 1; }
+    main { max-width: 1100px; margin: 0 auto; padding: 16px; }
+    h1 { font-size: 22px; margin: 8px 0 16px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+    .stat { background: #fff; border-radius: 8px; padding: 14px; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
+    .stat .num { font-size: 26px; font-weight: 700; }
+    .stat .label { color: #6b7280; font-size: 13px; margin-top: 2px; }
+    .card { background: #fff; border-radius: 8px; padding: 16px; box-shadow: 0 1px 4px rgba(0,0,0,.06); margin-bottom: 16px; }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th, td { text-align: left; padding: 9px 8px; border-bottom: 1px solid #e5e7eb; white-space: nowrap; }
+    th { color: #6b7280; font-weight: 600; }
+    a { color: #2563eb; }
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 999px; background: #e5e7eb; font-size: 12px; }
+    .badge.high { background: #fee2e2; color: #991b1b; }
+    .badge.dnc { background: #111827; color: #fff; }
+    form.inline { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+    input, select, textarea { padding: 8px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px; font-family: inherit; }
+    textarea { width: 100%; }
+    .field { margin-bottom: 12px; }
+    .field label { display: block; font-size: 13px; color: #6b7280; margin-bottom: 4px; }
+    .field input, .field select { width: 100%; }
+    button, .btn { padding: 8px 14px; border: 0; border-radius: 6px; background: #2563eb; color: #fff;
+                   font-size: 14px; cursor: pointer; text-decoration: none; display: inline-block; }
+    button.danger { background: #dc2626; }
+    button.gray, .btn.gray { background: #6b7280; }
+    .error { background: #fee2e2; color: #991b1b; padding: 10px; border-radius: 6px; margin-bottom: 12px; font-size: 14px; }
+    .muted { color: #6b7280; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <nav>
+    <span class="brand">SiteScout AI</span>
+    <a href="/">Dashboard</a>
+    <a href="/leads">Leads</a>
+    <a href="/leads/new">Add lead</a>
+    <span class="spacer"></span>
+    <a href="/logout">Logout</a>
+  </nav>
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>
