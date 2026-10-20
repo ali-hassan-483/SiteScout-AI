@@ -228,3 +228,6 @@ def delete_lead(request: Request, lead_id: int):
         return r
     leads.delete_lead(lead_id)
     return RedirectResponse("/leads", status_code=303)
+
+from app.routes_discovery import router as discovery_router  # noqa: E402
+app.include_router(discovery_router)
