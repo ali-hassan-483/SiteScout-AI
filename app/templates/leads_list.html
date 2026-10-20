@@ -1,0 +1,53 @@
+﻿{% extends "base.html" %}
+{% block title %}Leads - SiteScout AI{% endblock %}
+{% block content %}
+<h1>Leads</h1>
+
+<form class="inline" method="get" action="/leads">
+  <input type="text" name="search" placeholder="Search name, city, category, phone" value="{{ search }}">
+  <select name="status">
+    <option value="">All statuses</option>
+    {% for s in statuses %}<option value="{{ s }}" {% if s == status %}selected{% endif %}>{{ s }}</option>{% endfor %}
+  </select>
+  <select name="priority">
+    <option value="">All priorities</option>
+    {% for p in priorities %}<option value="{{ p }}" {% if p == priority %}selected{% endif %}>{{ p }}</option>{% endfor %}
+  </select>
+  <select name="website_status">
+    <option value="">All website states</option>
+    {% for w in website_statuses %}<option value="{{ w }}" {% if w == website_status %}selected{% endif %}>{{ w }}</option>{% endfor %}
+  </select>
+  <button type="submit">Filter</button>
+  <a class="btn gray" href="/leads">Reset</a>
+</form>
+
+<div class="card">
+  <div class="table-wrap">
+    <table>
+      <tr>
+        <th>Name</th><th>Category</th><th>City</th><th>Phone</th>
+        <th>Website</th><th>Status</th><th>Priority</th><th>Follow-up</th>
+      </tr>
+      {% for l in leads %}
+      <tr>
+        <td>
+          <a href="/leads/{{ l.id }}">{{ l.name }}</a>
+          {% if l.do_not_contact %}<span class="badge dnc">DO NOT CONTACT</span>{% endif %}
+        </td>
+        <td>{{ l.category or '-' }}</td>
+        <td>{{ l.city or '-' }}</td>
+        <td>{{ l.phone or '-' }}</td>
+        <td><span class="badge">{{ l.website_status }}</span></td>
+        <td><span class="badge">{{ l.status }}</span></td>
+        <td><span class="badge {% if l.priority == 'high' %}high{% endif %}">{{ l.priority }}</span></td>
+        <td>{{ l.followup_date or '-' }}</td>
+      </tr>
+      {% else %}
+      <tr><td colspan="8" class="muted">No leads found.</td></tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+
+<p><a class="btn gray" href="/leads/export.csv">Export CSV</a></p>
+{% endblock %}
