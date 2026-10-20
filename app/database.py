@@ -74,6 +74,7 @@ EXTRA_LEAD_COLUMNS = {
     "demo_url": "TEXT",
     "followup_date": "TEXT",
     "do_not_contact": "INTEGER NOT NULL DEFAULT 0",
+    "osm_ref": "TEXT",
 }
 
 
@@ -84,3 +85,8 @@ def init_db() -> None:
         for column, definition in EXTRA_LEAD_COLUMNS.items():
             if column not in existing:
                 conn.execute(f"ALTER TABLE leads ADD COLUMN {column} {definition}")
+        # The same OpenStreetMap business can never be stored twice.
+        conn.execute(
+            "CREATE UNIQUE INDEX IF NOT EXISTS idx_leads_osm_ref "
+            "ON leads(osm_ref) WHERE osm_ref IS NOT NULL"
+        )
