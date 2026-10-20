@@ -1,0 +1,50 @@
+﻿{% extends "base.html" %}
+{% block title %}{{ heading }} - SiteScout AI{% endblock %}
+{% block content %}
+<h1>{{ heading }}</h1>
+
+{% for e in errors %}<div class="error">{{ e }}</div>{% endfor %}
+
+<div class="card">
+  <form method="post" action="{{ action }}">
+    <div class="field"><label>Name *</label>
+      <input name="name" value="{{ lead.name or '' }}" required></div>
+    <div class="field"><label>Category</label>
+      <input name="category" value="{{ lead.category or '' }}"></div>
+    <div class="field"><label>Country</label>
+      <input name="country" value="{{ lead.country or '' }}"></div>
+    <div class="field"><label>City</label>
+      <input name="city" value="{{ lead.city or '' }}"></div>
+    <div class="field"><label>Phone</label>
+      <input name="phone" value="{{ lead.phone or '' }}"></div>
+    <div class="field"><label>Email</label>
+      <input name="email" value="{{ lead.email or '' }}"></div>
+    <div class="field"><label>Address</label>
+      <input name="address" value="{{ lead.address or '' }}"></div>
+    <div class="field"><label>Website</label>
+      <input name="website" value="{{ lead.website or '' }}"></div>
+    <div class="field"><label>Website status</label>
+      <select name="website_status">
+        {% for w in website_statuses %}<option value="{{ w }}" {% if w == (lead.website_status or 'unchecked') %}selected{% endif %}>{{ w }}</option>{% endfor %}
+      </select></div>
+    <div class="field"><label>Status</label>
+      <select name="status">
+        {% for s in statuses %}<option value="{{ s }}" {% if s == (lead.status or 'discovered') %}selected{% endif %}>{{ s }}</option>{% endfor %}
+      </select></div>
+    <div class="field"><label>Priority</label>
+      <select name="priority">
+        {% for p in priorities %}<option value="{{ p }}" {% if p == (lead.priority or 'normal') %}selected{% endif %}>{{ p }}</option>{% endfor %}
+      </select></div>
+    <div class="field"><label>Demo URL</label>
+      <input name="demo_url" value="{{ lead.demo_url or '' }}"></div>
+    <div class="field"><label>Follow-up date</label>
+      <input type="date" name="followup_date" value="{{ lead.followup_date or '' }}"></div>
+    <div class="field"><label>Source</label>
+      <input name="source" value="{{ lead.source or '' }}"></div>
+    <div class="field"><label>Source URL</label>
+      <input name="source_url" value="{{ lead.source_url or '' }}"></div>
+    <button type="submit">Save</button>
+    <a class="btn gray" href="/leads">Cancel</a>
+  </form>
+</div>
+{% endblock %}
