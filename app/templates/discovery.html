@@ -1,0 +1,40 @@
+﻿{% extends "base.html" %}
+{% block title %}Discover - SiteScout AI{% endblock %}
+{% block content %}
+<h1>Discover businesses</h1>
+
+{% if error %}<div class="error">{{ error }}</div>{% endif %}
+
+{% if result %}
+<div class="card">
+  <strong>Done.</strong> Source used: {{ result.source }}.<br>
+  Found {{ result.total }} businesses &middot;
+  <strong>{{ result.added }} added</strong> &middot;
+  {{ result.duplicates }} already in your list &middot;
+  {{ result.filtered }} skipped by filters.
+  {% if result.source == "Nominatim" %}
+  <p class="muted">The main data server (Overpass) was unavailable, so a smaller search (up to 40 results) was used.</p>
+  {% endif %}
+  <p><a class="btn" href="/leads">View leads</a></p>
+</div>
+{% endif %}
+
+<div class="card">
+  <form method="post" action="/discover">
+    <div class="field"><label>City *</label>
+      <input name="city" value="{{ form.city or '' }}" required></div>
+    <div class="field"><label>Country</label>
+      <input name="country" value="{{ form.country or '' }}"></div>
+    <div class="field"><label>Category</label>
+      <select name="category">
+        {% for c in categories %}<option value="{{ c }}" {% if c == form.category %}selected{% endif %}>{{ c }}</option>{% endfor %}
+      </select></div>
+    <div class="field"><label><input type="checkbox" name="only_with_phone" value="1" {% if form.only_with_phone %}checked{% endif %} style="width:auto"> Only businesses with a phone number listed</label></div>
+    <div class="field"><label><input type="checkbox" name="only_no_website" value="1" {% if form.only_no_website %}checked{% endif %} style="width:auto"> Only businesses with no website listed</label></div>
+    <button type="submit">Start discovery</button>
+    <p class="muted">This can take up to 2 minutes if the free map servers are busy. Please wait after pressing the button.</p>
+  </form>
+</div>
+
+<p class="muted">Data comes from OpenStreetMap. A business with no website listed there may still have one, so each lead stays unverified until the website check.</p>
+{% endblock %}
